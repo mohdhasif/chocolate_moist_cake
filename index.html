@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Munchies · Chocolate Moist Cake RM6</title>
+<meta name="description" content="Kek coklat moist RM6 je! Delivery RM1 sampai bilik di KKA, KKB & KKC UiTM Segamat. Free kad Make Your Day.">
+<meta property="og:title" content="Munchies · Chocolate Moist Cake RM6">
+<meta property="og:description" content="Kek coklat moist RM6, delivery RM1 sampai bilik. UiTM Segamat.">
+<meta property="og:image" content="images/cake.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fbf6ef;
+    --card: #ffffff;
+    --choco: #3b2418;
+    --choco-soft: #6b4a3a;
+    --caramel: #c98a4b;
+    --caramel-soft: #f3e3cf;
+    --line: #eadfd2;
+    --radius: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Poppins", system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--choco);
+    line-height: 1.6;
+    padding-bottom: 90px;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+  section { padding: 64px 0; }
+  h2 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
+  .sub { color: var(--choco-soft); margin-bottom: 32px; }
+  .eyebrow {
+    display: inline-block; font-size: .8rem; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--caramel); margin-bottom: 8px;
+  }
+
+  /* Nav */
+  nav { padding: 18px 0; }
+  nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .logo { font-weight: 800; font-size: 1.3rem; text-decoration: none; }
+  .logo span { color: var(--caramel); }
+  .nav-cta {
+    font-size: .9rem; font-weight: 600; text-decoration: none;
+    border: 2px solid var(--choco); padding: 6px 16px; border-radius: 999px;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--choco); color: var(--cream); text-decoration: none;
+    font-weight: 700; padding: 16px 32px; border-radius: 999px; font-size: 1.05rem;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); background: #2a1810; }
+  .btn-ghost { background: transparent; color: var(--choco); border: 2px solid var(--choco); }
+  .btn-ghost:hover { background: var(--choco); color: var(--cream); }
+
+  /* Hero */
+  .hero { padding-top: 24px; }
+  .hero .wrap { display: grid; gap: 40px; align-items: center; }
+  .hero h1 { font-size: clamp(2.2rem, 7vw, 3.6rem); font-weight: 800; line-height: 1.05; margin-bottom: 16px; }
+  .hero p { color: var(--choco-soft); font-size: 1.05rem; margin-bottom: 24px; max-width: 440px; }
+  .price-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; }
+  .price { font-size: 2.6rem; font-weight: 800; }
+  .price-note { color: var(--choco-soft); font-size: .95rem; }
+  .stock {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 20px;
+    font-size: .9rem; font-weight: 600; color: var(--choco-soft);
+  }
+  .dot { width: 8px; height: 8px; background: #d9534f; border-radius: 50%; animation: pulse 1.6s infinite; }
+  @keyframes pulse { 50% { opacity: .3; } }
+  .hero-img { position: relative; }
+  .hero-img img {
+    width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 28px;
+    box-shadow: 0 30px 60px -30px rgba(59, 36, 24, .45);
+  }
+  .badge {
+    position: absolute; bottom: -18px; left: 18px; background: var(--card);
+    padding: 10px 16px; border-radius: 14px; font-size: .9rem; font-weight: 600;
+    box-shadow: 0 10px 30px -10px rgba(59, 36, 24, .3);
+  }
+
+  /* Perks */
+  .grid { display: grid; gap: 16px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px;
+  }
+  .card .icon { font-size: 2rem; margin-bottom: 12px; }
+  .card h3 { font-size: 1.15rem; margin-bottom: 6px; }
+  .card p { color: var(--choco-soft); font-size: .95rem; }
+
+  /* Steps */
+  .steps { counter-reset: step; }
+  .step { display: flex; gap: 16px; align-items: flex-start; }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    flex: 0 0 40px; height: 40px; border-radius: 50%; background: var(--caramel-soft);
+    color: var(--choco); font-weight: 800; display: grid; place-items: center;
+  }
+  .pay { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .chip {
+    background: var(--caramel-soft); padding: 4px 12px; border-radius: 999px;
+    font-size: .85rem; font-weight: 600;
+  }
+
+  /* Area */
+  .area { background: var(--choco); color: var(--cream); border-radius: 28px; padding: 40px 28px; }
+  .area .sub { color: #d9c6b5; }
+  .area .chips { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .area .chip { background: rgba(251, 246, 239, .12); color: var(--cream); font-size: 1.1rem; padding: 10px 22px; }
+  .area small { color: #d9c6b5; }
+
+  /* FAQ */
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 18px 22px; margin-bottom: 12px;
+  }
+  summary { font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 1.3rem; line-height: 1; color: var(--caramel); }
+  details[open] summary::after { content: "–"; }
+  details p { color: var(--choco-soft); margin-top: 10px; font-size: .95rem; }
+
+  /* Contact */
+  .contact { text-align: center; }
+  .contact .btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  footer { text-align: center; padding: 40px 20px; color: var(--choco-soft); font-size: .9rem; }
+
+  /* Sticky mobile CTA */
+  .sticky {
+    position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px;
+    background: rgba(251, 246, 239, .92); backdrop-filter: blur(8px);
+    border-top: 1px solid var(--line); display: flex; align-items: center; gap: 12px;
+  }
+  .sticky .info { flex: 1; font-size: .85rem; line-height: 1.3; }
+  .sticky .info strong { font-size: 1.1rem; display: block; }
+  .sticky .btn { padding: 12px 24px; font-size: .95rem; }
+
+  @media (min-width: 760px) {
+    .hero .wrap { grid-template-columns: 1.1fr 1fr; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .area { padding: 56px; }
+    .sticky { display: none; }
+    body { padding-bottom: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#" class="logo">Munchies<span>.</span></a>
+    <a href="https://forms.gle/Ge58qB72M9Pa4nVK6" class="nav-cta" target="_blank" rel="noopener">Order</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">🍫 Craving coklat?</span>
+      <h1>Chocolate Moist Cake</h1>
+      <p>Kek coklat lembap gila, dengan ganache pekat + sprinkles atas dia. Siap sudu, terus makan! 🤤</p>
+      <div class="price-row">
+        <span class="price">RM6</span>
+        <span class="price-note">+ RM1 delivery sampai bilik 🛵</span>
+      </div>
+      <a href="https://forms.gle/Ge58qB72M9Pa4nVK6" class="btn" target="_blank" rel="noopener">Order Sekarang →</a>
+      <div class="stock"><span class="dot"></span>25 kotak je seminggu, siapa cepat dia dapat!</div>
+    </div>
+    <div class="hero-img">
+      <img src="images/cake.jpg" alt="Chocolate moist cake dalam bekas dengan ganache dan sprinkles coklat" width="593" height="419">
+      <div class="badge">💌 Free kad “Make Your Day”</div>
+    </div>
+  </div>
+</section>
+
+<!-- Perks -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Kenapa Munchies?</span>
+    <h2>Sedap, murah, sampai depan pintu.</h2>
+    <p class="sub">Tak payah turun bilik, tak payah pokai. 🤎</p>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="icon">💸</div>
+        <h3>RM6 je seketul</h3>
+        <p>Treat diri sendiri tanpa rasa bersalah dengan wallet. Student-friendly, confirm!</p>
+      </div>
+      <div class="card">
+        <div class="icon">🛵</div>
+        <h3>Delivery RM1</h3>
+        <p>Kami hantar sampai bilik. Yes, sampai bilik tau! 🥹</p>
+      </div>
+      <div class="card">
+        <div class="icon">💌</div>
+        <h3>Free kad “Make Your Day”</h3>
+        <p>Setiap order dapat satu kad kata semangat. Sebab kau deserve sikit motivation. 🫶🏻</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How to order -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Cara order</span>
+    <h2>Senang je, 3 langkah.</h2>
+    <p class="sub">Tak sampai seminit.</p>
+    <div class="grid grid-3 steps">
+      <div class="card step">
+        <div>
+          <h3>Isi form</h3>
+          <p>Tekan butang Order, isi nama, bilik dan kuantiti.</p>
+        </div>
+      </div>
+      <div class="card step">
+        <div>
+          <h3>Bayar</h3>
+          <p>Pilih cara yang kau suka:</p>
+          <div class="pay">
+            <span class="chip">💵 Cash</span>
+            <span class="chip">📱 DuitNow QR</span>
+            <span class="chip">💳 TnG</span>
+          </div>
+        </div>
+      </div>
+      <div class="card step">
+        <div>
+          <h3>Tunggu depan bilik</h3>
+          <p>Kami WhatsApp kau bila kek dah on the way. Happy tummy! 🍰</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Delivery area -->
+<section>
+  <div class="wrap">
+    <div class="area">
+      <span class="eyebrow">Kawasan delivery</span>
+      <h2>Kami hantar ke kolej kediaman ni:</h2>
+      <p class="sub">UiTM Cawangan Segamat</p>
+      <div class="chips">
+        <span class="chip">KKA</span>
+        <span class="chip">KKB</span>
+        <span class="chip">KKC</span>
+      </div>
+      <small>📦 Masa delivery akan dimaklumkan melalui WhatsApp lepas kau order.</small>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">FAQ</span>
+    <h2>Soalan lazim</h2>
+    <p class="sub">Kalau tak jumpa jawapan, WhatsApp je kami.</p>
+    <details>
+      <summary>Berapa total kena bayar?</summary>
+      <p>RM6 untuk sekotak kek + RM1 delivery. Jadi RM7 untuk sekotak, sampai bilik.</p>
+    </details>
+    <details>
+      <summary>Boleh bayar guna apa?</summary>
+      <p>Cash, DuitNow QR atau Touch 'n Go. Semua boleh!</p>
+    </details>
+    <details>
+      <summary>Bila kek sampai?</summary>
+      <p>Kami akan WhatsApp kau untuk confirm masa delivery lepas kau isi form.</p>
+    </details>
+    <details>
+      <summary>Kenapa 25 kotak je seminggu?</summary>
+      <p>Sebab kami buat fresh, batch kecil, supaya setiap kek tetap moist dan sedap. Habis stok, kena tunggu minggu depan!</p>
+    </details>
+    <details>
+      <summary>Duduk luar KKA, KKB, KKC. Boleh order?</summary>
+      <p>Buat masa ni delivery untuk KKA, KKB dan KKC je. WhatsApp kami kalau nak tanya.</p>
+    </details>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact">
+  <div class="wrap">
+    <span class="eyebrow">Ada soalan?</span>
+    <h2>Chat dengan kami 💬</h2>
+    <p class="sub">Kami reply laju, promise!</p>
+    <div class="btns">
+      <a class="btn btn-ghost" href="https://wa.me/60189644982?text=Hi%20Luqman!%20Nak%20tanya%20pasal%20Chocolate%20Moist%20Cake%20%F0%9F%8D%AB" target="_blank" rel="noopener">👦🏻 WhatsApp Luqman</a>
+      <a class="btn btn-ghost" href="https://wa.me/601110549875?text=Hi%20Nureen!%20Nak%20tanya%20pasal%20Chocolate%20Moist%20Cake%20%F0%9F%8D%AB" target="_blank" rel="noopener">👩🏻 WhatsApp Nureen</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Terima kasih support small business kami 🥹🤎<br>
+  Sekali cuba, sweet tooth kau confirm berterima kasih! 🍰✨<br><br>
+  © 2026 Munchies
+</footer>
+
+<!-- Sticky order bar (mobile) -->
+<div class="sticky">
+  <div class="info"><strong>RM6</strong>+ RM1 sampai bilik</div>
+  <a href="https://forms.gle/Ge58qB72M9Pa4nVK6" class="btn" target="_blank" rel="noopener">Order Sekarang</a>
+</div>
+
+</body>
+</html>
