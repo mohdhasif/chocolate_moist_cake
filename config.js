@@ -4,7 +4,7 @@
 // Selagi kosong, borang akan arahkan pembeli ke Google Form.
 window.MUNCHIES_CONFIG = {
   supabaseUrl: "https://vnpylcvkioccqqmirufi.supabase.co",
-  supabaseAnonKey: "",
+  supabaseAnonKey: "sb_publishable_MyDRrXjjYHCASkJClb5jwQ_BsWkjU3N",
   googleFormUrl: "https://forms.gle/Ge58qB72M9Pa4nVK6",
   whatsapp: "60189644982",
 };
