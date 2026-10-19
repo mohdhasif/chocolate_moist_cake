@@ -77,3 +77,9 @@ on conflict (id) do update set
 drop policy if exists "awam boleh upload resit" on storage.objects;
 create policy "awam boleh upload resit" on storage.objects
   for insert to anon, authenticated with check (bucket_id = 'receipts');
+
+-- 7. Minta API Supabase muat semula senarai fungsi/jadual
+notify pgrst, 'reload schema';
+
+-- 8. Semakan: patut keluar satu baris "SETUP OK" dengan baki 25
+select 'SETUP OK' as status, public.stock_left() as baki_stok;
