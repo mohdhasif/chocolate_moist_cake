@@ -3,153 +3,249 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Munchies · Chocolate Moist Cake RM6</title>
-<meta name="description" content="Kek coklat moist RM6 je! Delivery RM1 sampai bilik di KKA, KKB, KKC & NR UiTM Segamat. Free kad Make Your Day.">
+<title>Munchies · Chocolate Moist Cake</title>
+<meta name="description" content="Kek coklat moist RM6 sekotak, dihantar terus ke bilik kau di UiTM Segamat. Delivery RM1, free kad Make Your Day.">
 <meta property="og:title" content="Munchies · Chocolate Moist Cake RM6">
-<meta property="og:description" content="Kek coklat moist RM6, delivery RM1 sampai bilik. UiTM Segamat.">
+<meta property="og:description" content="Lembut, lembap, kaya coklat. Dihantar terus ke bilik kau di UiTM Segamat.">
 <meta property="og:image" content="images/cake.jpg">
+<meta name="theme-color" content="#2b1a12">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --cream: #fbf6ef;
+    --cream-2: #f4ebe0;
     --card: #ffffff;
-    --choco: #3b2418;
-    --choco-soft: #6b4a3a;
+    --choco: #2b1a12;
+    --choco-2: #3b2418;
+    --text-soft: #6e5546;
     --caramel: #c98a4b;
     --caramel-soft: #f3e3cf;
     --line: #eadfd2;
-    --radius: 20px;
+    --ok: #2f7d4f;
+    --err: #b3412f;
+    --radius: 22px;
+    --shadow: 0 24px 48px -28px rgba(43, 26, 18, .45);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    font-family: "Poppins", system-ui, sans-serif;
-    background: var(--cream);
-    color: var(--choco);
-    line-height: 1.6;
-    padding-bottom: 90px;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    background: var(--cream); color: var(--choco); line-height: 1.6;
+    -webkit-font-smoothing: antialiased; padding-bottom: 84px;
   }
+  img { display: block; max-width: 100%; }
+  [hidden] { display: none !important; }
   a { color: inherit; }
-  .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
-  section { padding: 64px 0; }
-  h2 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
-  .sub { color: var(--choco-soft); margin-bottom: 32px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  section { padding: 72px 0; }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; font-weight: 700; line-height: 1.12; letter-spacing: -.01em; }
+  h2 { font-size: clamp(1.7rem, 4.5vw, 2.4rem); margin-bottom: 12px; }
+  .lead { color: var(--text-soft); font-size: 1.05rem; max-width: 520px; }
   .eyebrow {
-    display: inline-block; font-size: .8rem; font-weight: 600; letter-spacing: .08em;
-    text-transform: uppercase; color: var(--caramel); margin-bottom: 8px;
+    display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--caramel); margin-bottom: 12px;
   }
-
-  /* Nav */
-  nav { padding: 18px 0; }
-  nav .wrap { display: flex; justify-content: space-between; align-items: center; }
-  .logo { font-weight: 800; font-size: 1.3rem; text-decoration: none; }
-  .logo span { color: var(--caramel); }
-  .nav-cta {
-    font-size: .9rem; font-weight: 600; text-decoration: none;
-    border: 2px solid var(--choco); padding: 6px 16px; border-radius: 999px;
-  }
+  .head { margin-bottom: 40px; }
 
   /* Buttons */
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    background: var(--choco); color: var(--cream); text-decoration: none;
-    font-weight: 700; padding: 16px 32px; border-radius: 999px; font-size: 1.05rem;
-    transition: transform .15s ease, background .15s ease;
+    background: var(--choco); color: var(--cream); text-decoration: none; border: 0; cursor: pointer;
+    font: 700 1rem/1 "Plus Jakarta Sans", sans-serif; padding: 17px 30px; border-radius: 999px;
+    transition: transform .15s ease, box-shadow .15s ease, opacity .15s;
   }
-  .btn:hover { transform: translateY(-2px); background: #2a1810; }
-  .btn-ghost { background: transparent; color: var(--choco); border: 2px solid var(--choco); }
-  .btn-ghost:hover { background: var(--choco); color: var(--cream); }
+  .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .btn:disabled { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn-light { background: transparent; color: var(--choco); box-shadow: inset 0 0 0 2px var(--line); }
+  .btn-light:hover { box-shadow: inset 0 0 0 2px var(--choco); }
+  .btn-block { width: 100%; }
+
+  /* Nav */
+  nav { padding: 18px 0; }
+  nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .logo { font-family: "Fraunces", serif; font-weight: 700; font-size: 1.45rem; text-decoration: none; }
+  .logo span { color: var(--caramel); }
+  .nav-links { display: flex; gap: 22px; align-items: center; font-weight: 600; font-size: .95rem; }
+  .nav-links a { text-decoration: none; }
+  .nav-links .btn { padding: 10px 20px; font-size: .9rem; }
+  .nav-links .hide-sm { display: none; }
 
   /* Hero */
-  .hero { padding-top: 24px; }
-  .hero .wrap { display: grid; gap: 40px; align-items: center; }
-  .hero h1 { font-size: clamp(2.2rem, 7vw, 3.6rem); font-weight: 800; line-height: 1.05; margin-bottom: 16px; }
-  .hero p { color: var(--choco-soft); font-size: 1.05rem; margin-bottom: 24px; max-width: 440px; }
-  .price-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; }
-  .price { font-size: 2.6rem; font-weight: 800; }
-  .price-note { color: var(--choco-soft); font-size: .95rem; }
-  .stock {
-    display: inline-flex; align-items: center; gap: 8px; margin-top: 20px;
-    font-size: .9rem; font-weight: 600; color: var(--choco-soft);
-  }
-  .dot { width: 8px; height: 8px; background: #d9534f; border-radius: 50%; animation: pulse 1.6s infinite; }
-  @keyframes pulse { 50% { opacity: .3; } }
+  .hero { padding: 24px 0 72px; }
+  .hero .wrap { display: grid; gap: 44px; align-items: center; }
+  .hero h1 { font-size: clamp(2.4rem, 7.5vw, 4rem); margin-bottom: 18px; }
+  .hero h1 em { font-style: italic; color: var(--caramel); }
+  .hero .lead { margin-bottom: 28px; }
+  .price-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 28px; }
+  .price { font-family: "Fraunces", serif; font-size: 2.6rem; font-weight: 700; line-height: 1; }
+  .price small { font-family: "Plus Jakarta Sans", sans-serif; font-size: 1rem; font-weight: 500; color: var(--text-soft); }
+  .tag { background: var(--caramel-soft); padding: 6px 14px; border-radius: 999px; font-size: .85rem; font-weight: 600; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
   .hero-img { position: relative; }
-  .hero-img img {
-    width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 28px;
-    box-shadow: 0 30px 60px -30px rgba(59, 36, 24, .45);
+  .hero-img img { width: 100%; aspect-ratio: 5 / 4; object-fit: cover; border-radius: 32px; box-shadow: var(--shadow); }
+  .float {
+    position: absolute; background: var(--card); border-radius: 16px; padding: 12px 16px;
+    box-shadow: 0 14px 34px -14px rgba(43, 26, 18, .35); font-size: .88rem; font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
   }
-  .badge {
-    position: absolute; bottom: -18px; left: 18px; background: var(--card);
-    padding: 10px 16px; border-radius: 14px; font-size: .9rem; font-weight: 600;
-    box-shadow: 0 10px 30px -10px rgba(59, 36, 24, .3);
+  .float.one { left: -6px; bottom: 26px; }
+  .float.two { right: -6px; top: 22px; }
+  .float b { font-size: 1.25rem; }
+
+  /* Stock meter */
+  .stock { margin-top: 28px; max-width: 360px; }
+  .stock-top { display: flex; justify-content: space-between; font-size: .88rem; font-weight: 600; margin-bottom: 8px; }
+  .stock-top span:last-child { color: var(--text-soft); }
+  .bar { height: 8px; background: var(--cream-2); border-radius: 999px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--caramel), #a5652f); border-radius: inherit; transition: width .8s ease; }
+
+  /* Features */
+  .features { display: grid; gap: 16px; }
+  .feature-photo { position: relative; border-radius: var(--radius); overflow: hidden; min-height: 300px; background: var(--choco); }
+  .feature-photo img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+  .feature-photo figcaption {
+    position: absolute; inset: auto 0 0 0; padding: 60px 24px 22px; color: var(--cream);
+    background: linear-gradient(transparent, rgba(20, 12, 8, .85));
+    font-family: "Fraunces", serif; font-size: 1.35rem; line-height: 1.25;
+  }
+  .feature-list { display: grid; gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; }
+  .card h3 { font-size: 1.2rem; margin-bottom: 6px; }
+  .card p { color: var(--text-soft); font-size: .95rem; }
+  .icon {
+    width: 44px; height: 44px; border-radius: 14px; background: var(--caramel-soft);
+    display: grid; place-items: center; font-size: 1.3rem; margin-bottom: 14px;
   }
 
-  /* Perks */
-  .grid { display: grid; gap: 16px; }
-  .card {
-    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px;
-  }
-  .card .icon { font-size: 2rem; margin-bottom: 12px; }
-  .card h3 { font-size: 1.15rem; margin-bottom: 6px; }
-  .card p { color: var(--choco-soft); font-size: .95rem; }
+  /* Card section */
+  .gift { background: var(--choco); color: var(--cream); border-radius: 32px; overflow: hidden; display: grid; }
+  .gift img { width: 100%; height: 100%; min-height: 260px; object-fit: cover; }
+  .gift .txt { padding: 40px 28px; align-self: center; }
+  .gift .lead { color: #dccbbb; }
+  .gift .eyebrow { color: #e3ad74; }
 
-  /* Steps */
-  .steps { counter-reset: step; }
-  .step { display: flex; gap: 16px; align-items: flex-start; }
-  .step::before {
-    counter-increment: step; content: counter(step);
-    flex: 0 0 40px; height: 40px; border-radius: 50%; background: var(--caramel-soft);
-    color: var(--choco); font-weight: 800; display: grid; place-items: center;
+  /* Order */
+  .order-grid { display: grid; gap: 28px; align-items: start; }
+  .steps { list-style: none; display: grid; gap: 18px; margin: 28px 0; counter-reset: s; }
+  .steps li { display: flex; gap: 14px; counter-increment: s; }
+  .steps li::before {
+    content: counter(s); flex: 0 0 34px; height: 34px; border-radius: 50%;
+    background: var(--choco); color: var(--cream); display: grid; place-items: center; font-weight: 700; font-size: .9rem;
   }
-  .pay { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-  .chip {
-    background: var(--caramel-soft); padding: 4px 12px; border-radius: 999px;
-    font-size: .85rem; font-weight: 600;
-  }
+  .steps b { display: block; }
+  .steps span { color: var(--text-soft); font-size: .93rem; }
+  .areas { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .chip { background: var(--caramel-soft); padding: 6px 14px; border-radius: 999px; font-size: .85rem; font-weight: 600; }
 
-  /* Area */
-  .area { background: var(--choco); color: var(--cream); border-radius: 28px; padding: 40px 28px; }
-  .area .sub { color: #d9c6b5; }
-  .area .chips { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
-  .area .chip { background: rgba(251, 246, 239, .12); color: var(--cream); font-size: 1.1rem; padding: 10px 22px; }
-  .area small { color: #d9c6b5; }
+  form.card { padding: 28px 24px; box-shadow: var(--shadow); }
+  .field { margin-bottom: 20px; }
+  .field > label, .field > .label { display: block; font-weight: 600; font-size: .93rem; margin-bottom: 8px; }
+  .hint { font-size: .82rem; color: var(--text-soft); margin-top: 6px; }
+  input[type=text], input[type=tel], textarea {
+    width: 100%; font: 500 1rem "Plus Jakarta Sans", sans-serif; color: var(--choco);
+    background: var(--cream); border: 1.5px solid var(--line); border-radius: 14px; padding: 14px 16px;
+    transition: border-color .15s, background .15s;
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--caramel); background: #fff; }
+  textarea { resize: vertical; min-height: 80px; }
+  .two { display: grid; gap: 0 14px; }
+
+  .seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .seg.pay { grid-template-columns: 1fr 1fr; }
+  .seg input { position: absolute; opacity: 0; pointer-events: none; }
+  .seg label {
+    text-align: center; padding: 12px 6px; border-radius: 14px; border: 1.5px solid var(--line);
+    background: var(--cream); font-weight: 600; font-size: .92rem; cursor: pointer; transition: all .15s;
+  }
+  .seg input:checked + label { background: var(--choco); color: var(--cream); border-color: var(--choco); }
+  .seg input:focus-visible + label { outline: 2px solid var(--caramel); outline-offset: 2px; }
+
+  .qty { display: flex; align-items: center; gap: 14px; }
+  .qty button {
+    width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--cream);
+    font-size: 1.3rem; font-weight: 600; cursor: pointer; color: var(--choco);
+  }
+  .qty button:disabled { opacity: .35; cursor: not-allowed; }
+  .qty output { font-family: "Fraunces", serif; font-size: 1.7rem; font-weight: 700; min-width: 28px; text-align: center; }
+  .qty .unit { color: var(--text-soft); font-size: .9rem; }
+
+  .bank { background: var(--cream); border: 1.5px dashed var(--line); border-radius: 16px; padding: 16px; margin-top: 12px; font-size: .9rem; }
+  .bank .acc { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 4px 0; }
+  .bank .num { font-family: ui-monospace, monospace; font-size: 1.08rem; font-weight: 700; letter-spacing: .03em; }
+  .copy { border: 0; background: var(--caramel-soft); color: var(--choco); font: 600 .8rem "Plus Jakarta Sans"; padding: 7px 12px; border-radius: 999px; cursor: pointer; }
+  .bank .qr { width: 180px; margin: 12px auto 4px; border-radius: 12px; }
+
+  .file {
+    display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px;
+    border: 1.5px dashed var(--caramel); background: #fffaf3; cursor: pointer; font-weight: 600; font-size: .93rem;
+  }
+  .file input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .file .name { color: var(--text-soft); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .total { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 18px; margin: 4px 0 18px; }
+  .total span { color: var(--text-soft); font-size: .9rem; }
+  .total strong { font-family: "Fraunces", serif; font-size: 1.9rem; }
+  .msg { border-radius: 14px; padding: 12px 14px; font-size: .9rem; margin-bottom: 14px; display: none; }
+  .msg.show { display: block; }
+  .msg.err { background: #fbe9e5; color: var(--err); }
+  .msg.info { background: var(--caramel-soft); }
+  .hp { position: absolute; left: -9999px; }
+
+  .done { text-align: center; padding: 40px 24px; }
+  .done .big { font-size: 3rem; margin-bottom: 8px; }
+  .done h3 { font-size: 1.6rem; margin-bottom: 8px; }
+  .done .code { display: inline-block; font-family: ui-monospace, monospace; font-weight: 700; background: var(--caramel-soft); padding: 6px 14px; border-radius: 10px; margin: 10px 0 18px; }
+  .done p { color: var(--text-soft); margin-bottom: 20px; }
 
   /* FAQ */
-  details {
-    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
-    padding: 18px 22px; margin-bottom: 12px;
-  }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 22px; margin-bottom: 10px; }
   summary { font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
   summary::-webkit-details-marker { display: none; }
   summary::after { content: "+"; font-size: 1.3rem; line-height: 1; color: var(--caramel); }
   details[open] summary::after { content: "–"; }
-  details p { color: var(--choco-soft); margin-top: 10px; font-size: .95rem; }
+  details p { color: var(--text-soft); margin-top: 10px; font-size: .95rem; }
 
-  /* Contact */
-  .contact { text-align: center; }
-  .contact .btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  footer { background: var(--choco); color: #dccbbb; padding: 56px 0 40px; margin-top: 40px; }
+  footer .wrap { display: grid; gap: 28px; }
+  footer .logo { color: var(--cream); }
+  footer p { font-size: .93rem; max-width: 380px; margin-top: 8px; }
+  footer h4 { color: var(--cream); font-size: .9rem; margin-bottom: 10px; }
+  footer a { display: block; text-decoration: none; margin-bottom: 6px; font-size: .93rem; }
+  footer a:hover { color: var(--cream); }
+  footer small { display: block; border-top: 1px solid rgba(255,255,255,.1); padding-top: 20px; font-size: .82rem; }
 
-  footer { text-align: center; padding: 40px 20px; color: var(--choco-soft); font-size: .9rem; }
-
-  /* Sticky mobile CTA */
   .sticky {
-    position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px;
-    background: rgba(251, 246, 239, .92); backdrop-filter: blur(8px);
-    border-top: 1px solid var(--line); display: flex; align-items: center; gap: 12px;
+    position: fixed; left: 12px; right: 12px; bottom: 12px; padding: 10px 10px 10px 18px;
+    background: var(--choco); color: var(--cream); border-radius: 999px; display: flex; align-items: center; gap: 12px;
+    box-shadow: 0 18px 40px -12px rgba(43, 26, 18, .6); transition: transform .25s ease, opacity .25s ease;
   }
-  .sticky .info { flex: 1; font-size: .85rem; line-height: 1.3; }
-  .sticky .info strong { font-size: 1.1rem; display: block; }
-  .sticky .btn { padding: 12px 24px; font-size: .95rem; }
+  .sticky.hide { transform: translateY(140%); opacity: 0; }
+  .sticky .info { flex: 1; font-size: .82rem; line-height: 1.25; color: #dccbbb; }
+  .sticky .info strong { color: var(--cream); font-size: 1rem; display: block; }
+  .sticky .btn { background: var(--cream); color: var(--choco); padding: 12px 22px; font-size: .92rem; }
 
-  @media (min-width: 760px) {
-    .hero .wrap { grid-template-columns: 1.1fr 1fr; }
-    .grid-3 { grid-template-columns: repeat(3, 1fr); }
-    .area { padding: 56px; }
+  @media (min-width: 560px) {
+    .two { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 820px) {
+    .nav-links .hide-sm { display: inline; }
+    .hero .wrap { grid-template-columns: 1.05fr 1fr; }
+    .features { grid-template-columns: 1fr 1.1fr; }
+    .feature-list { grid-template-columns: 1fr 1fr; }
+    .gift { grid-template-columns: 1fr 1.2fr; }
+    .gift .txt { padding: 56px; }
+    .order-grid { grid-template-columns: .85fr 1.15fr; gap: 56px; }
+    .order-info { position: sticky; top: 24px; }
+    footer .wrap { grid-template-columns: 2fr 1fr 1fr; }
+    footer small { grid-column: 1 / -1; }
     .sticky { display: none; }
     body { padding-bottom: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
   }
 </style>
 </head>
@@ -158,165 +254,414 @@
 <nav>
   <div class="wrap">
     <a href="#" class="logo">Munchies<span>.</span></a>
-    <a href="https://forms.gle/Ge58qB72M9Pa4nVK6" class="nav-cta" target="_blank" rel="noopener">Order</a>
+    <div class="nav-links">
+      <a href="#sedap" class="hide-sm">Kenapa sedap</a>
+      <a href="#faq" class="hide-sm">FAQ</a>
+      <a href="#order" class="btn">Order</a>
+    </div>
   </div>
 </nav>
 
-<!-- Hero -->
-<section class="hero">
+<header class="hero">
   <div class="wrap">
     <div>
-      <span class="eyebrow">🍫 Craving coklat?</span>
-      <h1>Chocolate Moist Cake</h1>
-      <p>Kek coklat lembap gila, dengan ganache pekat + sprinkles atas dia. Siap sudu, terus makan! 🤤</p>
+      <span class="eyebrow">Fresh setiap minggu · UiTM Segamat</span>
+      <h1>Kek coklat moist yang buat hari kau <em>lebih manis.</em></h1>
+      <p class="lead">Lembut, lembap dan kaya coklat, disiram ganache pekat dengan taburan sprinkles. Dihantar terus ke pintu bilik kau.</p>
       <div class="price-row">
-        <span class="price">RM6</span>
-        <span class="price-note">+ RM1 delivery sampai bilik 🛵</span>
+        <span class="price">RM6 <small>/ kotak</small></span>
+        <span class="tag">🛵 Delivery RM1</span>
       </div>
-      <a href="https://forms.gle/Ge58qB72M9Pa4nVK6" class="btn" target="_blank" rel="noopener">Order Sekarang →</a>
-      <div class="stock"><span class="dot"></span>25 kotak je seminggu, siapa cepat dia dapat!</div>
+      <div class="cta-row">
+        <a href="#order" class="btn">Order sekarang →</a>
+        <a href="#sedap" class="btn btn-light">Kenapa sedap?</a>
+      </div>
+      <div class="stock" aria-live="polite">
+        <div class="stock-top"><span id="stockText">25 kotak je seminggu</span><span id="stockNote">Batch kecil, buat fresh</span></div>
+        <div class="bar"><i id="stockBar"></i></div>
+      </div>
     </div>
     <div class="hero-img">
-      <img src="images/cake.jpg" alt="Chocolate moist cake dalam bekas dengan ganache dan sprinkles coklat" width="593" height="419">
-      <div class="badge">💌 Free kad “Make Your Day”</div>
+      <img src="images/cake.jpg" alt="Chocolate moist cake dalam bekas, disiram ganache dan sprinkles coklat" width="593" height="419">
+      <div class="float one"><b>💌</b> Free kad “Make Your Day”</div>
+      <div class="float two"><b>🥄</b> Siap sudu</div>
     </div>
   </div>
-</section>
+</header>
 
-<!-- Perks -->
-<section>
+<section id="sedap">
   <div class="wrap">
-    <span class="eyebrow">Kenapa Munchies?</span>
-    <h2>Sedap, murah, sampai depan pintu.</h2>
-    <p class="sub">Tak payah turun bilik, tak payah pokai. 🤎</p>
-    <div class="grid grid-3">
-      <div class="card">
-        <div class="icon">💸</div>
-        <h3>RM6 je seketul</h3>
-        <p>Treat diri sendiri tanpa rasa bersalah dengan wallet. Student-friendly, confirm!</p>
-      </div>
-      <div class="card">
-        <div class="icon">🛵</div>
-        <h3>Delivery RM1</h3>
-        <p>Kami hantar sampai bilik. Yes, sampai bilik tau! 🥹</p>
-      </div>
-      <div class="card">
-        <div class="icon">💌</div>
-        <h3>Free kad “Make Your Day”</h3>
-        <p>Setiap order dapat satu kad kata semangat. Sebab kau deserve sikit motivation. 🫶🏻</p>
-      </div>
+    <div class="head">
+      <span class="eyebrow">Kenapa sedap</span>
+      <h2>Sedap yang kau rasa dari suapan pertama.</h2>
+      <p class="lead">Kek simple, dibuat dengan betul. Itu je rahsianya.</p>
     </div>
-  </div>
-</section>
-
-<!-- How to order -->
-<section>
-  <div class="wrap">
-    <span class="eyebrow">Cara order</span>
-    <h2>Senang je, 3 langkah.</h2>
-    <p class="sub">Tak sampai seminit.</p>
-    <div class="grid grid-3 steps">
-      <div class="card step">
-        <div>
-          <h3>Isi form</h3>
-          <p>Tekan butang Order, isi nama, no. telefon, kuantiti dan bilik/alamat.</p>
+    <div class="features">
+      <figure class="feature-photo">
+        <img src="images/spoon.jpg" alt="Sesudu kek coklat dengan ganache yang meleleh" loading="lazy">
+        <figcaption>Lembut, lembap dan penuh coklat, sampai ke suapan terakhir.</figcaption>
+      </figure>
+      <div class="feature-list">
+        <div class="card">
+          <div class="icon">🍫</div>
+          <h3>Moist dari atas ke bawah</h3>
+          <p>Tekstur lembut dan lembap, tak kering langsung. Setiap suapan rasa macam baru keluar dari dapur.</p>
+        </div>
+        <div class="card">
+          <div class="icon">✨</div>
+          <h3>Ganache yang pekat</h3>
+          <p>Lapisan coklat berkilat yang cair di mulut, dengan taburan sprinkles di atasnya.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🧁</div>
+          <h3>Batch kecil, buat fresh</h3>
+          <p>25 kotak je seminggu, supaya setiap kotak dapat perhatian penuh.</p>
+        </div>
+        <div class="card">
+          <div class="icon">💸</div>
+          <h3>Harga student</h3>
+          <p>RM6 sekotak dan RM1 hantar sampai bilik. Treat diri tanpa risau pasal duit.</p>
         </div>
       </div>
-      <div class="card step">
-        <div>
-          <h3>Bayar</h3>
-          <p>Scan QR atau transfer ke akaun BSN dalam form, lepas tu upload resit.</p>
-          <div class="pay">
-            <span class="chip">📱 DuitNow QR</span>
-            <span class="chip">🏦 Transfer</span>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top: 0">
+  <div class="wrap">
+    <div class="gift">
+      <img src="images/card.jpg" alt="Kotak kek dengan sudu dan kad Make Your Day" loading="lazy">
+      <div class="txt">
+        <span class="eyebrow">Hadiah kecil dalam setiap kotak</span>
+        <h2>Lebih dari sekadar kek.</h2>
+        <p class="lead">Setiap order datang dengan kad “Make Your Day”, sebaris kata semangat untuk teman kau study, kelas pagi atau hari yang panjang. Sebab kau deserve. 🤎</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="order">
+  <div class="wrap order-grid">
+    <div class="order-info">
+      <span class="eyebrow">Order</span>
+      <h2>Order terus di sini.</h2>
+      <p class="lead">Isi borang, bayar, upload resit. Siap dalam seminit.</p>
+      <ol class="steps">
+        <li><div><b>Isi butiran</b><span>Nama, nombor WhatsApp, kuantiti dan bilik/alamat.</span></div></li>
+        <li><div><b>Bayar & upload resit</b><span>DuitNow QR atau transfer ke akaun BSN.</span></div></li>
+        <li><div><b>Kek sampai ke pintu</b><span>Kami WhatsApp kau untuk confirm masa delivery.</span></div></li>
+      </ol>
+      <div class="label"><b>Kawasan delivery</b></div>
+      <div class="areas">
+        <span class="chip">KKA</span><span class="chip">KKB</span><span class="chip">KKC</span><span class="chip">NR · sewa luar kolej</span>
+      </div>
+    </div>
+
+    <div id="orderBox">
+      <form class="card" id="orderForm" novalidate>
+        <div class="msg info" id="fallbackMsg">Borang online sedang disediakan. Buat masa ni, sila order melalui <a id="gformLink" href="#" target="_blank" rel="noopener"><b>Google Form</b></a>.</div>
+
+        <div class="two">
+          <div class="field">
+            <label for="name">Nama</label>
+            <input type="text" id="name" name="name" placeholder="cth: Aina" autocomplete="name" maxlength="60" required>
+          </div>
+          <div class="field">
+            <label for="phone">No. WhatsApp</label>
+            <input type="tel" id="phone" name="phone" placeholder="cth: 0123456789" autocomplete="tel" inputmode="tel" required>
           </div>
         </div>
-      </div>
-      <div class="card step">
-        <div>
-          <h3>Tunggu depan bilik</h3>
-          <p>Kami WhatsApp kau bila kek dah on the way. Happy tummy! 🍰</p>
+
+        <div class="field">
+          <span class="label">Kuantiti</span>
+          <div class="qty">
+            <button type="button" id="minus" aria-label="Kurang">−</button>
+            <output id="qty" aria-live="polite">1</output>
+            <button type="button" id="plus" aria-label="Tambah">+</button>
+            <span class="unit">kotak × RM6</span>
+          </div>
+          <p class="hint" id="qtyHint">Maksimum 5 kotak setiap order.</p>
         </div>
+
+        <div class="field">
+          <span class="label">Kawasan</span>
+          <div class="seg" role="radiogroup" aria-label="Kawasan">
+            <input type="radio" name="area" id="a1" value="KKA" checked><label for="a1">KKA</label>
+            <input type="radio" name="area" id="a2" value="KKB"><label for="a2">KKB</label>
+            <input type="radio" name="area" id="a3" value="KKC"><label for="a3">KKC</label>
+            <input type="radio" name="area" id="a4" value="NR"><label for="a4">NR</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="address" id="addressLabel">Blok & no. bilik</label>
+          <input type="text" id="address" name="address" placeholder="cth: Nilam C345" maxlength="200" required>
+        </div>
+
+        <div class="field">
+          <span class="label">Cara bayaran</span>
+          <div class="seg pay" role="radiogroup" aria-label="Cara bayaran">
+            <input type="radio" name="pay" id="p1" value="DuitNow QR" checked><label for="p1">📱 DuitNow QR</label>
+            <input type="radio" name="pay" id="p2" value="Transfer"><label for="p2">🏦 Transfer</label>
+          </div>
+          <div class="bank">
+            <div>BSN · Muhammad Safuan Adly bin Shawaludin <span class="hint">(team Munchies)</span></div>
+            <div class="acc"><span class="num" id="accNum">0115641100125946</span><button type="button" class="copy" id="copyBtn">Salin</button></div>
+            <img class="qr" id="qrImg" src="images/duitnow-qr.png" alt="QR DuitNow Munchies" hidden>
+            <div class="hint">Jumlah perlu dibayar: <b id="payTotal">RM7</b></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="label">Resit bayaran</span>
+          <label class="file" for="receipt">
+            <span>📎</span><span class="name" id="fileName">Pilih gambar atau PDF resit</span>
+            <input type="file" id="receipt" accept="image/*,application/pdf" required>
+          </label>
+          <p class="hint">Max 5MB.</p>
+        </div>
+
+        <div class="field">
+          <label for="notes">Catatan <span class="hint">(pilihan)</span></label>
+          <textarea id="notes" name="notes" maxlength="300" placeholder="cth: letak depan pintu"></textarea>
+        </div>
+
+        <input type="text" class="hp" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="total"><span>Jumlah (termasuk delivery RM1)</span><strong id="total">RM7</strong></div>
+        <div class="msg err" id="errMsg" role="alert"></div>
+        <button type="submit" class="btn btn-block" id="submitBtn">Hantar order</button>
+      </form>
+
+      <div class="card done" id="doneBox" hidden>
+        <div class="big">🎉</div>
+        <h3>Terima kasih, order diterima!</h3>
+        <div class="code" id="orderCode"></div>
+        <p>Kami akan WhatsApp kau untuk confirm masa delivery. Kek coklat kau dah on the way. 🤎</p>
+        <a class="btn" id="waConfirm" href="#" target="_blank" rel="noopener">Confirm di WhatsApp</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Delivery area -->
-<section>
-  <div class="wrap">
-    <div class="area">
-      <span class="eyebrow">Kawasan delivery</span>
-      <h2>Kami hantar ke sini:</h2>
-      <p class="sub">UiTM Cawangan Segamat</p>
-      <div class="chips">
-        <span class="chip">KKA</span>
-        <span class="chip">KKB</span>
-        <span class="chip">KKC</span>
-        <span class="chip">NR · sewa luar kolej</span>
-      </div>
-      <small>📦 Masa delivery akan dimaklumkan melalui WhatsApp lepas kau order.</small>
+<section id="faq">
+  <div class="wrap" style="max-width: 760px">
+    <div class="head">
+      <span class="eyebrow">FAQ</span>
+      <h2>Soalan lazim</h2>
     </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section>
-  <div class="wrap">
-    <span class="eyebrow">FAQ</span>
-    <h2>Soalan lazim</h2>
-    <p class="sub">Kalau tak jumpa jawapan, WhatsApp je kami.</p>
     <details>
-      <summary>Berapa total kena bayar?</summary>
-      <p>RM6 untuk sekotak kek + RM1 delivery. Jadi RM7 untuk sekotak, sampai bilik.</p>
-    </details>
-    <details>
-      <summary>Boleh bayar guna apa?</summary>
-      <p>DuitNow QR atau transfer ke akaun BSN yang ada dalam form. Jangan lupa upload resit sebelum submit ya!</p>
-    </details>
-    <details>
-      <summary>Boleh self-pickup?</summary>
-      <p>Buat masa ni tak ada self-pickup. Delivery je, RM1 sampai bilik atau rumah sewa kau. 🛵</p>
+      <summary>Berapa jumlah kena bayar?</summary>
+      <p>RM6 sekotak, tambah RM1 delivery untuk setiap order. Contoh: 2 kotak = RM13.</p>
     </details>
     <details>
       <summary>Bila kek sampai?</summary>
-      <p>Kami akan WhatsApp kau untuk confirm masa delivery lepas kau isi form.</p>
-    </details>
-    <details>
-      <summary>Kenapa 25 kotak je seminggu?</summary>
-      <p>Sebab kami buat fresh, batch kecil, supaya setiap kek tetap moist dan sedap. Habis stok, kena tunggu minggu depan!</p>
+      <p>Lepas order, kami akan WhatsApp kau untuk confirm masa delivery.</p>
     </details>
     <details>
       <summary>Aku non-resident (sewa luar kolej). Boleh order?</summary>
-      <p>Boleh! Kami deliver untuk NR juga. Tulis alamat rumah sewa kau dalam form. Kalau tak pasti kawasan kau termasuk, WhatsApp kami dulu.</p>
+      <p>Boleh! Pilih NR dan tulis alamat rumah sewa kau. Kalau tak pasti kawasan kau termasuk, WhatsApp kami dulu.</p>
     </details>
-  </div>
-</section>
-
-<!-- Contact -->
-<section class="contact">
-  <div class="wrap">
-    <span class="eyebrow">Ada soalan?</span>
-    <h2>Chat dengan kami 💬</h2>
-    <p class="sub">Kami reply laju, promise!</p>
-    <div class="btns">
-      <a class="btn btn-ghost" href="https://wa.me/60189644982?text=Hi%20Luqman!%20Nak%20tanya%20pasal%20Chocolate%20Moist%20Cake%20%F0%9F%8D%AB" target="_blank" rel="noopener">👦🏻 WhatsApp Luqman</a>
-      <a class="btn btn-ghost" href="https://wa.me/601110549875?text=Hi%20Nureen!%20Nak%20tanya%20pasal%20Chocolate%20Moist%20Cake%20%F0%9F%8D%AB" target="_blank" rel="noopener">👩🏻 WhatsApp Nureen</a>
-    </div>
+    <details>
+      <summary>Ada self-pickup?</summary>
+      <p>Buat masa ni delivery sahaja, RM1 sampai ke bilik atau rumah sewa kau.</p>
+    </details>
+    <details>
+      <summary>Kenapa 25 kotak je seminggu?</summary>
+      <p>Kami buat dalam batch kecil supaya setiap kotak fresh dan moist. Stok dibuka semula setiap Isnin.</p>
+    </details>
   </div>
 </section>
 
 <footer>
-  Terima kasih support small business kami 🥹🤎<br>
-  Sekali cuba, sweet tooth kau confirm berterima kasih! 🍰✨<br><br>
-  © 2026 Munchies
+  <div class="wrap">
+    <div>
+      <a href="#" class="logo">Munchies<span>.</span></a>
+      <p>Kek coklat moist, dibuat dengan sepenuh hati untuk warga UiTM Segamat. Terima kasih sebab support small business kami. 🤎</p>
+    </div>
+    <div>
+      <h4>WhatsApp</h4>
+      <a href="https://wa.me/60189644982?text=Hi%20Luqman!%20Nak%20tanya%20pasal%20Chocolate%20Moist%20Cake" target="_blank" rel="noopener">Luqman · 018-964 4982</a>
+      <a href="https://wa.me/601110549875?text=Hi%20Nureen!%20Nak%20tanya%20pasal%20Chocolate%20Moist%20Cake" target="_blank" rel="noopener">Nureen · 011-1054 9875</a>
+    </div>
+    <div>
+      <h4>Pautan</h4>
+      <a href="#sedap">Kenapa sedap</a>
+      <a href="#order">Order</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <small>© 2026 Munchies · UiTM Segamat</small>
+  </div>
 </footer>
 
-<!-- Sticky order bar (mobile) -->
-<div class="sticky">
-  <div class="info"><strong>RM6</strong>+ RM1 sampai bilik</div>
-  <a href="https://forms.gle/Ge58qB72M9Pa4nVK6" class="btn" target="_blank" rel="noopener">Order Sekarang</a>
+<div class="sticky" id="sticky">
+  <div class="info"><strong>RM6 / kotak</strong><span id="stickyStock">Delivery RM1 sampai bilik</span></div>
+  <a href="#order" class="btn">Order</a>
 </div>
 
+<script src="config.js"></script>
+<script>
+(() => {
+  const cfg = window.MUNCHIES_CONFIG || {};
+  const live = Boolean(cfg.supabaseUrl && cfg.supabaseAnonKey);
+  const PRICE = 6, DELIVERY = 1, MAX_QTY = 5, WEEKLY = 25, MAX_FILE = 5 * 1024 * 1024;
+  const $ = (id) => document.getElementById(id);
+  let qty = 1, stockLeft = null;
+
+  // Supabase REST, tanpa library
+  const headers = (extra = {}) => {
+    const h = { apikey: cfg.supabaseAnonKey, ...extra };
+    if (cfg.supabaseAnonKey.startsWith("eyJ")) h.Authorization = "Bearer " + cfg.supabaseAnonKey;
+    return h;
+  };
+  async function api(path, opts) {
+    const res = await fetch(cfg.supabaseUrl.replace(/\/$/, "") + path, opts);
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.message || body.error || "HTTP " + res.status);
+    }
+    return res.status === 204 ? null : res.json().catch(() => null);
+  }
+
+  // Stok
+  function renderStock() {
+    if (stockLeft === null) return;
+    $("stockText").textContent = stockLeft > 0 ? `Tinggal ${stockLeft} kotak minggu ni` : "Stok minggu ni dah habis";
+    $("stockNote").textContent = `daripada ${WEEKLY}`;
+    $("stockBar").style.width = (stockLeft / WEEKLY * 100) + "%";
+    $("stickyStock").textContent = stockLeft > 0 ? `Tinggal ${stockLeft} kotak minggu ni` : "Stok habis, jumpa minggu depan!";
+    if (stockLeft === 0) {
+      $("submitBtn").disabled = true;
+      $("submitBtn").textContent = "Stok habis, jumpa Isnin depan 🤎";
+    }
+    renderQty();
+  }
+  async function loadStock() {
+    try {
+      stockLeft = await api("/rest/v1/rpc/stock_left", {
+        method: "POST", headers: headers({ "Content-Type": "application/json" }), body: "{}",
+      });
+      renderStock();
+    } catch (e) { /* stok tak dapat dimuat, borang masih boleh guna */ }
+  }
+
+  // Kuantiti & jumlah
+  const maxQty = () => Math.max(1, Math.min(MAX_QTY, stockLeft ?? MAX_QTY));
+  function renderQty() {
+    qty = Math.min(qty, maxQty());
+    $("qty").textContent = qty;
+    $("minus").disabled = qty <= 1;
+    $("plus").disabled = qty >= maxQty();
+    const total = "RM" + (qty * PRICE + DELIVERY);
+    $("total").textContent = total;
+    $("payTotal").textContent = total;
+    $("qtyHint").textContent = stockLeft !== null && stockLeft < MAX_QTY
+      ? `Tinggal ${stockLeft} kotak je minggu ni.` : `Maksimum ${MAX_QTY} kotak setiap order.`;
+  }
+  $("minus").onclick = () => { qty--; renderQty(); };
+  $("plus").onclick = () => { qty++; renderQty(); };
+
+  // Kawasan: NR guna alamat rumah sewa
+  document.querySelectorAll("input[name=area]").forEach((r) => r.addEventListener("change", () => {
+    const nr = r.value === "NR" && r.checked;
+    $("addressLabel").textContent = nr ? "Alamat rumah sewa" : "Blok & no. bilik";
+    $("address").placeholder = nr ? "cth: No. 12, Jalan Mawar, Taman Segamat Baru" : "cth: Nilam C345";
+  }));
+
+  // Bayaran
+  $("qrImg").onload = () => { $("qrImg").hidden = $("p2").checked; };
+  document.querySelectorAll("input[name=pay]").forEach((r) => r.addEventListener("change", () => {
+    if ($("qrImg").naturalWidth) $("qrImg").hidden = $("p2").checked;
+  }));
+  $("copyBtn").onclick = async () => {
+    try { await navigator.clipboard.writeText($("accNum").textContent); $("copyBtn").textContent = "Disalin ✓"; }
+    catch { $("copyBtn").textContent = "Salin manual"; }
+    setTimeout(() => { $("copyBtn").textContent = "Salin"; }, 2000);
+  };
+  $("receipt").onchange = () => {
+    const f = $("receipt").files[0];
+    $("fileName").textContent = f ? f.name : "Pilih gambar atau PDF resit";
+  };
+
+  // Hantar
+  const showErr = (t) => { $("errMsg").innerHTML = t; $("errMsg").classList.add("show"); };
+  const uuid = () => crypto.randomUUID ? crypto.randomUUID()
+    : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
+
+  $("orderForm").onsubmit = async (e) => {
+    e.preventDefault();
+    $("errMsg").classList.remove("show");
+    if (!live) { window.open(cfg.googleFormUrl, "_blank", "noopener"); return; }
+    if ($("website").value) return;
+
+    const name = $("name").value.trim();
+    const phone = $("phone").value.replace(/[\s-]/g, "");
+    const address = $("address").value.trim();
+    const notes = $("notes").value.trim();
+    const area = document.querySelector("input[name=area]:checked").value;
+    const pay = document.querySelector("input[name=pay]:checked").value;
+    const file = $("receipt").files[0];
+
+    if (name.length < 2) return showErr("Sila isi nama kau.");
+    if (!/^\+?[0-9]{9,13}$/.test(phone)) return showErr("No. WhatsApp tak sah. Contoh: 0123456789");
+    if (address.length < 2) return showErr(area === "NR" ? "Sila isi alamat rumah sewa." : "Sila isi blok & no. bilik.");
+    if (!file) return showErr("Sila upload resit bayaran.");
+    if (file.size > MAX_FILE) return showErr("Fail resit terlalu besar (max 5MB).");
+
+    const btn = $("submitBtn");
+    btn.disabled = true; btn.textContent = "Menghantar…";
+    const id = uuid();
+    const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const receiptPath = `${id}/resit.${ext}`;
+    try {
+      await api(`/storage/v1/object/receipts/${receiptPath}`, {
+        method: "POST", headers: headers({ "Content-Type": file.type || "application/octet-stream" }), body: file,
+      });
+      await api("/rest/v1/orders", {
+        method: "POST",
+        headers: headers({ "Content-Type": "application/json", Prefer: "return=minimal" }),
+        body: JSON.stringify({
+          id, name, phone, quantity: qty, area, address,
+          payment_method: pay, receipt_path: receiptPath, notes: notes || null,
+        }),
+      });
+      const code = id.slice(0, 8).toUpperCase();
+      const total = qty * PRICE + DELIVERY;
+      $("orderCode").textContent = "Order #" + code;
+      const text = `Hi Munchies! Aku dah order 🍫\nOrder #${code}\nNama: ${name}\nKuantiti: ${qty} kotak (RM${total})\nKawasan: ${area} · ${address}\nBayaran: ${pay}`;
+      $("waConfirm").href = `https://wa.me/${cfg.whatsapp}?text=${encodeURIComponent(text)}`;
+      $("orderForm").hidden = true;
+      $("doneBox").hidden = false;
+      $("orderBox").scrollIntoView({ behavior: "smooth", block: "start" });
+      loadStock();
+    } catch (err) {
+      btn.disabled = false; btn.textContent = "Hantar order";
+      if (/STOK_HABIS/.test(err.message)) {
+        await loadStock();
+        showErr(stockLeft ? `Alamak, tinggal ${stockLeft} kotak je sekarang. Kurangkan kuantiti dan cuba lagi.` : "Alamak, stok minggu ni baru je habis. Jumpa Isnin depan! 🤎");
+      } else {
+        showErr(`Order tak berjaya dihantar. Cuba lagi, atau order melalui <a href="${cfg.googleFormUrl}" target="_blank" rel="noopener"><b>Google Form</b></a>.`);
+      }
+    }
+  };
+
+  // Mod sementara: belum ada Supabase → guna Google Form
+  if (!live) {
+    $("gformLink").href = cfg.googleFormUrl;
+    $("fallbackMsg").classList.add("show");
+    $("submitBtn").textContent = "Order melalui Google Form →";
+    $("orderForm").querySelectorAll("input, textarea, .qty button").forEach((el) => { el.disabled = true; });
+  } else {
+    loadStock();
+  }
+  renderQty();
+
+  // Sorok butang melekat bila borang dah kelihatan
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(([en]) => $("sticky").classList.toggle("hide", en.isIntersecting), { threshold: 0.05 })
+      .observe($("order"));
+  }
+})();
+</script>
 </body>
 </html>
