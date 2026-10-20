@@ -33,7 +33,7 @@
   body {
     font-family: "Plus Jakarta Sans", system-ui, sans-serif;
     background: var(--cream); color: var(--choco); line-height: 1.6;
-    -webkit-font-smoothing: antialiased; padding-bottom: 84px;
+    -webkit-font-smoothing: antialiased;
   }
   img { display: block; max-width: 100%; }
   [hidden] { display: none !important; }
@@ -187,6 +187,7 @@
   .total { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 18px; margin: 4px 0 18px; }
   .total span { color: var(--text-soft); font-size: .9rem; }
   .total strong { font-family: "Fraunces", serif; font-size: 1.9rem; }
+  .included { background: var(--caramel-soft); border-radius: 14px; padding: 10px 14px; font-size: .88rem; margin-bottom: 16px; }
   .msg { border-radius: 14px; padding: 12px 14px; font-size: .9rem; margin-bottom: 14px; display: none; }
   .msg.show { display: block; }
   .msg.err { background: #fbe9e5; color: var(--err); }
@@ -207,7 +208,7 @@
   details[open] summary::after { content: "–"; }
   details p { color: var(--text-soft); margin-top: 10px; font-size: .95rem; }
 
-  footer { background: var(--choco); color: #dccbbb; padding: 56px 0 40px; margin-top: 40px; }
+  footer { background: var(--choco); color: #dccbbb; padding: 56px 0 120px; margin-top: 40px; }
   footer .wrap { display: grid; gap: 28px; }
   footer .logo { color: var(--cream); }
   footer p { font-size: .93rem; max-width: 380px; margin-top: 8px; }
@@ -241,7 +242,7 @@
     footer .wrap { grid-template-columns: 2fr 1fr 1fr; }
     footer small { grid-column: 1 / -1; }
     .sticky { display: none; }
-    body { padding-bottom: 0; }
+    footer { padding-bottom: 40px; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -271,6 +272,7 @@
       <div class="price-row">
         <span class="price">RM6 <small>/ kotak</small></span>
         <span class="tag">🛵 Delivery RM1</span>
+        <span class="tag">💌 Free kad “Make Your Day”</span>
       </div>
       <div class="cta-row">
         <a href="#order" class="btn">Order sekarang →</a>
@@ -349,7 +351,7 @@
       <ol class="steps">
         <li><div><b>Isi butiran</b><span>Nama, nombor WhatsApp, kuantiti dan bilik/alamat.</span></div></li>
         <li><div><b>Bayar & upload resit</b><span>DuitNow QR atau transfer ke akaun BSN.</span></div></li>
-        <li><div><b>Kek sampai ke pintu</b><span>Kami WhatsApp kau untuk confirm masa delivery.</span></div></li>
+        <li><div><b>Kek sampai ke pintu</b><span>Bersama kad “Make Your Day” percuma. Kami WhatsApp kau untuk confirm masa delivery.</span></div></li>
       </ol>
       <div class="label"><b>Kawasan delivery</b></div>
       <div class="areas">
@@ -429,6 +431,7 @@
         <input type="text" class="hp" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
 
         <div class="total"><span>Jumlah (termasuk delivery RM1)</span><strong id="total">RM7</strong></div>
+        <p class="included">💌 Setiap order dapat <b>kad “Make Your Day”</b> percuma.</p>
         <div class="msg err" id="errMsg" role="alert"></div>
         <button type="submit" class="btn btn-block" id="submitBtn">Hantar order</button>
       </form>
@@ -437,7 +440,7 @@
         <div class="big">🎉</div>
         <h3>Terima kasih, order diterima!</h3>
         <div class="code" id="orderCode"></div>
-        <p>Kami akan WhatsApp kau untuk confirm masa delivery. Kek coklat kau dah on the way. 🤎</p>
+        <p>Kami akan WhatsApp kau untuk confirm masa delivery. Kek coklat kau, siap dengan kad “Make Your Day”, dah on the way. 🤎</p>
         <a class="btn" id="waConfirm" href="#" target="_blank" rel="noopener">Confirm di WhatsApp</a>
       </div>
     </div>
@@ -453,6 +456,10 @@
     <details>
       <summary>Berapa jumlah kena bayar?</summary>
       <p>RM6 sekotak, tambah RM1 delivery untuk setiap order. Contoh: 2 kotak = RM13.</p>
+    </details>
+    <details>
+      <summary>Apa kad “Make Your Day” tu?</summary>
+      <p>Kad kecil dengan kata semangat yang kami selitkan dalam setiap order, percuma. Hadiah kecil untuk buat hari kau lebih baik. 🤎</p>
     </details>
     <details>
       <summary>Bila kek sampai?</summary>
@@ -495,7 +502,7 @@
 </footer>
 
 <div class="sticky" id="sticky">
-  <div class="info"><strong>RM6 / kotak</strong><span id="stickyStock">Delivery RM1 sampai bilik</span></div>
+  <div class="info"><strong>RM6 + free kad 💌</strong><span id="stickyStock">Delivery RM1 sampai bilik</span></div>
   <a href="#order" class="btn">Order</a>
 </div>
 
