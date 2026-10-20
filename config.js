@@ -6,5 +6,5 @@ window.MUNCHIES_CONFIG = {
   supabaseUrl: "https://vnpylcvkioccqqmirufi.supabase.co",
   supabaseAnonKey: "sb_publishable_MyDRrXjjYHCASkJClb5jwQ_BsWkjU3N",
   googleFormUrl: "https://forms.gle/Ge58qB72M9Pa4nVK6",
-  whatsapp: "60189644982",
+  whatsapp: "601110549875",
 };
