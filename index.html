@@ -511,9 +511,9 @@
 (() => {
   const cfg = window.MUNCHIES_CONFIG || {};
   const live = Boolean(cfg.supabaseUrl && cfg.supabaseAnonKey);
-  const PRICE = 6, DELIVERY = 1, MAX_QTY = 5, WEEKLY = 25, MAX_FILE = 5 * 1024 * 1024;
+  const PRICE = 6, DELIVERY = 1, MAX_QTY = 5, MAX_FILE = 5 * 1024 * 1024;
   const $ = (id) => document.getElementById(id);
-  let qty = 1, stockLeft = null;
+  let qty = 1, stockLeft = null, weekly = 25, shopOpen = true;
 
   // Supabase REST, tanpa library
   const headers = (extra = {}) => {
@@ -533,23 +533,35 @@
   // Stok
   function renderStock() {
     if (stockLeft === null) return;
-    $("stockText").textContent = stockLeft > 0 ? `Tinggal ${stockLeft} kotak minggu ni` : "Stok minggu ni dah habis";
-    $("stockNote").textContent = `daripada ${WEEKLY}`;
-    $("stockBar").style.width = (stockLeft / WEEKLY * 100) + "%";
-    $("stickyStock").textContent = stockLeft > 0 ? `Tinggal ${stockLeft} kotak minggu ni` : "Stok habis, jumpa minggu depan!";
-    if (stockLeft === 0) {
+    if (!shopOpen) {
+      $("stockText").textContent = "Order ditutup sementara";
+      $("stockNote").textContent = "";
+      $("stockBar").style.width = "0%";
+      $("stickyStock").textContent = "Order ditutup sementara";
       $("submitBtn").disabled = true;
-      $("submitBtn").textContent = "Stok habis, jumpa Isnin depan 🤎";
+      $("submitBtn").textContent = "Order ditutup sementara 🤎";
+      return renderQty();
     }
+    $("stockText").textContent = stockLeft > 0 ? `Tinggal ${stockLeft} kotak minggu ni` : "Stok minggu ni dah habis";
+    $("stockNote").textContent = `daripada ${weekly}`;
+    $("stockBar").style.width = (weekly ? Math.min(100, stockLeft / weekly * 100) : 0) + "%";
+    $("stickyStock").textContent = stockLeft > 0 ? `Tinggal ${stockLeft} kotak minggu ni` : "Stok habis, jumpa minggu depan!";
+    $("submitBtn").disabled = stockLeft === 0;
+    $("submitBtn").textContent = stockLeft === 0 ? "Stok habis, jumpa Isnin depan 🤎" : "Hantar order";
     renderQty();
   }
   async function loadStock() {
+    const rpc = (fn) => api(`/rest/v1/rpc/${fn}`, {
+      method: "POST", headers: headers({ "Content-Type": "application/json" }), body: "{}",
+    });
     try {
-      stockLeft = await api("/rest/v1/rpc/stock_left", {
-        method: "POST", headers: headers({ "Content-Type": "application/json" }), body: "{}",
-      });
-      renderStock();
-    } catch (e) { /* stok tak dapat dimuat, borang masih boleh guna */ }
+      const st = await rpc("shop_status");
+      stockLeft = st.left; weekly = st.limit; shopOpen = st.open;
+    } catch (e) {
+      // admin.sql belum di-run: guna fungsi lama
+      try { stockLeft = await rpc("stock_left"); } catch (e2) { return; }
+    }
+    renderStock();
   }
 
   // Kuantiti & jumlah
@@ -643,7 +655,10 @@
       loadStock();
     } catch (err) {
       btn.disabled = false; btn.textContent = "Hantar order";
-      if (/STOK_HABIS/.test(err.message)) {
+      if (/KEDAI_TUTUP/.test(err.message)) {
+        await loadStock();
+        showErr("Maaf, order baru je ditutup sementara. WhatsApp kami untuk tahu bila dibuka semula! 🤎");
+      } else if (/STOK_HABIS/.test(err.message)) {
         await loadStock();
         showErr(stockLeft ? `Alamak, tinggal ${stockLeft} kotak je sekarang. Kurangkan kuantiti dan cuba lagi.` : "Alamak, stok minggu ni baru je habis. Jumpa Isnin depan! 🤎");
       } else {
