@@ -135,6 +135,7 @@
   .seg button.on.in { background: var(--ok); border-color: var(--ok); color: #fff; }
   .seg button.on.out { background: var(--err); border-color: var(--err); color: #fff; }
   .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .two > *, input[type=date] { min-width: 0; }
 
   .line { display: flex; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
   .line:last-child { border-bottom: 0; }
@@ -323,11 +324,23 @@
             <div id="txList"></div>
           </div>
         </div>
-        <div class="section-title">Eksport (CSV untuk Excel)</div>
-        <div class="row">
-          <button class="btn sm ghost" data-csv="orders">⬇ Order</button>
-          <button class="btn sm ghost" data-csv="tx">⬇ Kewangan</button>
-          <button class="btn sm ghost" data-csv="stock">⬇ Stok</button>
+        <div class="section-title">Laporan & eksport</div>
+        <div class="card">
+          <div class="chips" id="rangeChips">
+            <button data-r="week">Minggu ni</button>
+            <button data-r="month" class="on">Bulan ni</button>
+            <button data-r="all">Semua</button>
+          </div>
+          <div class="two">
+            <div class="field"><label for="rFrom">Dari</label><input type="date" id="rFrom"></div>
+            <div class="field"><label for="rTo">Hingga</label><input type="date" id="rTo"></div>
+          </div>
+          <p class="muted" style="margin-bottom:12px"><b>Excel:</b> ringkasan, order, kewangan, stok, ikut kawasan dan mingguan (satu sheet setiap satu). <b>PDF:</b> laporan lengkap sedia untuk dicetak atau dihantar.</p>
+          <div class="msg err" id="rErr" hidden></div>
+          <div class="two">
+            <button class="btn" id="xlsBtn">⬇ Excel</button>
+            <button class="btn light" id="pdfBtn">⬇ PDF</button>
+          </div>
         </div>
       </div>
     </section>
@@ -676,25 +689,169 @@
     toast("Transaksi disimpan"); refresh(true);
   };
 
-  // CSV
-  function downloadCsv(name, rows) {
-    const csv = rows.map((r) => r.map((v) => { const s = String(v ?? ""); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; }).join(",")).join("\n");
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" }));
-    a.download = `munchies-${name}-${todayStr()}.csv`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  // ---------- Laporan (Excel & PDF) ----------
+  const loaded = {};
+  const loadScript = (src) => loaded[src] ||= new Promise((ok, fail) => {
+    const el = document.createElement("script");
+    el.src = src; el.onload = ok; el.onerror = () => { delete loaded[src]; fail(new Error("Gagal muat " + src)); };
+    document.head.append(el);
+  });
+  const myDate = (ts) => new Date(new Date(ts).getTime() + 8 * 3600e3).toISOString().slice(0, 10);
+  const myDateTime = (ts) => new Date(ts).toLocaleString("ms-MY", { timeZone: TZ, day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  const money2 = (n) => Math.round(Number(n) * 100) / 100;
+
+  function setRange(r) {
+    document.querySelectorAll("#rangeChips button").forEach((b) => b.classList.toggle("on", b.dataset.r === r));
+    const dates = [...S.orders.map((o) => myDate(o.created_at)), ...S.txs.map((t) => t.tx_date), ...S.moves.map((m) => myDate(m.created_at))].sort();
+    $("rFrom").value = r === "all" ? (dates[0] || todayStr()) : periodStart(r).date;
+    $("rTo").value = todayStr();
   }
-  document.querySelectorAll("[data-csv]").forEach((b) => (b.onclick = () => {
-    const t = (d) => new Date(d).toLocaleString("ms-MY", { timeZone: TZ });
-    if (b.dataset.csv === "orders") downloadCsv("order", [["Kod", "Masa", "Status", "Nama", "Telefon", "Kuantiti", "Jumlah (RM)", "Kawasan", "Alamat", "Bayaran", "Catatan"],
-      ...S.orders.map((o) => [code(o.id), t(o.created_at), o.status, o.name, o.phone, o.quantity, o.total_rm, o.area, o.address, o.payment_method, o.notes])]);
-    if (b.dataset.csv === "tx") downloadCsv("kewangan", [["Tarikh", "Jenis", "Jumlah (RM)", "Catatan", "Oleh"],
-      ...S.txs.map((x) => [x.tx_date, x.kind, x.amount, x.note, x.created_by]),
-      ...S.orders.filter(isSale).map((o) => [new Date(new Date(o.created_at).getTime() + 8 * 3600e3).toISOString().slice(0, 10), "jualan online", o.total_rm, `Order #${code(o.id)} · ${o.quantity} kotak`, ""])]);
-    if (b.dataset.csv === "stock") downloadCsv("stok", [["Masa", "Jenis", "Kuantiti", "Sebab", "Catatan", "Oleh"],
-      ...S.moves.map((m) => [t(m.created_at), m.kind, m.qty, m.reason, m.note, m.created_by])]);
-  }));
+  $("rangeChips").onclick = (e) => { const b = e.target.closest("button"); if (b) setRange(b.dataset.r); };
+  ["rFrom", "rTo"].forEach((id) => ($(id).oninput = () => document.querySelectorAll("#rangeChips button").forEach((b) => b.classList.remove("on"))));
+
+  function buildReport() {
+    const from = $("rFrom").value, to = $("rTo").value;
+    if (!from || !to || from > to) throw new Error("Pilih julat tarikh yang betul.");
+    const fromTs = Date.parse(from + "T00:00:00+08:00"), toTs = Date.parse(to + "T00:00:00+08:00") + 864e5;
+    const inRange = (d) => { const t = new Date(d).getTime(); return t >= fromTs && t < toTs; };
+    const orders = S.orders.filter((o) => inRange(o.created_at)).sort((x, y) => (x.created_at < y.created_at ? -1 : 1));
+    const sales = orders.filter(isSale);
+    const txs = S.txs.filter((t) => t.tx_date >= from && t.tx_date <= to);
+    const moves = S.moves.filter((m) => inRange(m.created_at)).sort((x, y) => (x.created_at < y.created_at ? -1 : 1));
+    const by = (k) => sum(txs.filter((t) => t.kind === k), (t) => t.amount);
+    const online = sum(sales, (o) => o.total_rm), walkin = by("jualan luar"), otherIn = by("lain-lain masuk");
+    const expense = by("belanja"), capital = by("modal");
+    const mv = (kind, reasons) => sum(moves.filter((m) => m.kind === kind && (!reasons || reasons.includes(m.reason))), (m) => m.qty);
+    const cnt = (st) => orders.filter((o) => o.status === st).length;
+
+    const summary = [
+      ["Tempoh", `${fmtDate(from)} - ${fmtDate(to)}`],
+      ["JUALAN & KEWANGAN", ""],
+      ["Jualan online (RM)", money2(online)],
+      ["Kotak dijual online", sum(sales, (o) => o.quantity)],
+      ["Jualan luar (RM)", money2(walkin)],
+      ["Lain-lain masuk (RM)", money2(otherIn)],
+      ["Jumlah jualan (RM)", money2(online + walkin + otherIn)],
+      ["Belanja (RM)", money2(expense)],
+      ["Untung bersih (RM)", money2(online + walkin + otherIn - expense)],
+      ["Modal masuk (RM)", money2(capital)],
+      ["Baki tunai keseluruhan (RM)", money2(cashAll())],
+      ["ORDER", ""],
+      ["Jumlah order", orders.length],
+      ["Baru", cnt("baru")], ["Disahkan", cnt("disahkan")], ["Dihantar", cnt("dihantar")], ["Batal", cnt("batal")],
+      ["STOK KEK (KOTAK)", ""],
+      ["Kek masuk", mv("masuk")],
+      ["Keluar: jualan online", mv("keluar", ["jualan online"])],
+      ["Keluar: jualan luar", mv("keluar", ["jualan luar"])],
+      ["Keluar: rosak", mv("keluar", ["rosak"])],
+      ["Keluar: percuma", mv("keluar", ["percuma"])],
+      ["Keluar: pelarasan / lain-lain", mv("keluar", ["pelarasan", "lain-lain"])],
+      ["Kek sedia ada (sekarang)", onHand()],
+    ];
+
+    const areas = ["KKA", "KKB", "KKC", "NR"].map((a) => {
+      const os = sales.filter((o) => o.area === a);
+      return [a, os.length, sum(os, (o) => o.quantity), money2(sum(os, (o) => o.total_rm))];
+    });
+
+    const weekOf = (d) => { const x = new Date(d + "T00:00:00Z"); x.setUTCDate(x.getUTCDate() - ((x.getUTCDay() + 6) % 7)); return x.toISOString().slice(0, 10); };
+    const weeks = {};
+    const W = (k) => (weeks[k] ||= { orders: 0, boxes: 0, online: 0, other: 0, expense: 0 });
+    sales.forEach((o) => { const w = W(weekOf(myDate(o.created_at))); w.orders++; w.boxes += o.quantity; w.online += o.total_rm; });
+    txs.forEach((t) => { const w = W(weekOf(t.tx_date)); if (t.kind === "belanja") w.expense += Number(t.amount); else if (t.kind !== "modal") w.other += Number(t.amount); });
+    const weekly = Object.keys(weeks).sort().map((k) => { const w = weeks[k]; return [fmtDate(k), w.orders, w.boxes, money2(w.online), money2(w.other), money2(w.expense), money2(w.online + w.other - w.expense)]; });
+
+    const finance = [
+      ...txs.map((t) => ({ d: t.tx_date, s: t.tx_date + t.created_at, row: [fmtDate(t.tx_date), t.kind, t.kind === "belanja" ? "" : money2(t.amount), t.kind === "belanja" ? money2(t.amount) : "", t.note || "", t.created_by || ""] })),
+      ...sales.map((o) => ({ d: myDate(o.created_at), s: myDate(o.created_at) + o.created_at, row: [fmtDate(myDate(o.created_at)), "jualan online", money2(o.total_rm), "", `Order #${code(o.id)} - ${o.quantity} kotak - ${o.name}`, ""] })),
+    ].sort((x, y) => (x.s < y.s ? -1 : 1)).map((x) => x.row);
+
+    return {
+      from, to, summary, areas, weekly, finance,
+      orders: orders.map((o) => [code(o.id), myDateTime(o.created_at), o.name, o.phone, o.quantity, money2(o.total_rm), o.area, o.address, o.payment_method, STATUS_LABEL[o.status], o.notes || ""]),
+      stock: moves.map((m) => [myDateTime(m.created_at), m.kind, m.qty, m.reason, m.note || "", m.created_by || ""]),
+    };
+  }
+  const H = {
+    orders: ["Kod", "Tarikh", "Nama", "Telefon", "Kotak", "Jumlah (RM)", "Kawasan", "Alamat", "Bayaran", "Status", "Catatan"],
+    finance: ["Tarikh", "Jenis", "Masuk (RM)", "Keluar (RM)", "Catatan", "Oleh"],
+    stock: ["Tarikh", "Jenis", "Kotak", "Sebab", "Catatan", "Oleh"],
+    areas: ["Kawasan", "Order", "Kotak", "Jualan (RM)"],
+    weekly: ["Minggu bermula", "Order", "Kotak", "Jualan online (RM)", "Jualan lain (RM)", "Belanja (RM)", "Untung (RM)"],
+  };
+  const fileName = (r, ext) => `munchies-laporan-${r.from}-hingga-${r.to}.${ext}`;
+
+  async function runExport(btn, fn) {
+    showErr($("rErr"), "");
+    const label = btn.textContent;
+    btn.disabled = true; btn.textContent = "Menyediakan…";
+    try { await fn(buildReport()); toast("Laporan dimuat turun"); }
+    catch (e) { showErr($("rErr"), e.message || String(e)); }
+    finally { btn.disabled = false; btn.textContent = label; }
+  }
+
+  $("xlsBtn").onclick = () => runExport($("xlsBtn"), async (r) => {
+    await loadScript("vendor/xlsx.mini.min.js");
+    const wb = XLSX.utils.book_new();
+    const add = (name, rows, widths) => {
+      const ws = XLSX.utils.aoa_to_sheet(rows);
+      ws["!cols"] = widths.map((w) => ({ wch: w }));
+      XLSX.utils.book_append_sheet(wb, ws, name);
+    };
+    add("Ringkasan", [["Laporan Munchies · Chocolate Moist Cake"], [`Dijana ${myDateTime(Date.now())} oleh ${$("whoEmail").textContent}`], [], ...r.summary], [34, 30]);
+    add("Order", [H.orders, ...r.orders], [10, 18, 18, 14, 7, 12, 9, 26, 12, 10, 26]);
+    add("Kewangan", [H.finance, ...r.finance], [14, 16, 12, 12, 40, 22]);
+    add("Stok", [H.stock, ...r.stock], [18, 9, 7, 14, 30, 22]);
+    add("Ikut kawasan", [H.areas, ...r.areas], [12, 8, 8, 14]);
+    add("Mingguan", [H.weekly, ...r.weekly], [16, 8, 8, 18, 16, 14, 12]);
+    XLSX.writeFile(wb, fileName(r, "xlsx"));
+  });
+
+  $("pdfBtn").onclick = () => runExport($("pdfBtn"), async (r) => {
+    await loadScript("vendor/jspdf.umd.min.js");
+    await loadScript("vendor/jspdf.plugin.autotable.min.js");
+    // Font asas PDF hanya sokong Latin-1: buang emoji & simbol lain
+    const clean = (v) => (typeof v === "number" ? v.toFixed(Number.isInteger(v) ? 0 : 2) : String(v ?? "").replace(/[−–—]/g, "-").replace(/[·•]/g, "-").replace(/[^\x00-\xFF]/g, "").trim());
+    const rows = (arr) => arr.map((row) => row.map(clean));
+    const doc = new window.jspdf.jsPDF({ unit: "mm", format: "a4" });
+    const choco = [43, 26, 18], caramel = [201, 138, 75];
+    doc.setFont("helvetica", "bold"); doc.setFontSize(20); doc.setTextColor(...choco);
+    doc.text("Munchies", 14, 18);
+    doc.setFontSize(12); doc.text("Laporan Jualan, Kewangan & Stok", 14, 25);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(9); doc.setTextColor(110, 85, 70);
+    doc.text(clean(`Tempoh: ${fmtDate(r.from)} - ${fmtDate(r.to)}`), 14, 31);
+    doc.text(clean(`Dijana: ${myDateTime(Date.now())} oleh ${$("whoEmail").textContent}`), 14, 35.5);
+    doc.setDrawColor(...caramel); doc.setLineWidth(0.6); doc.line(14, 39, 196, 39);
+
+    let y = 45;
+    const base = { theme: "grid", headStyles: { fillColor: choco, textColor: 255, fontStyle: "bold" }, styles: { fontSize: 8.5, cellPadding: 1.8, lineColor: [234, 223, 210] }, alternateRowStyles: { fillColor: [251, 246, 239] }, margin: { left: 14, right: 14 } };
+    const section = (title, opts) => {
+      if (y > 260) { doc.addPage(); y = 18; }
+      doc.setFont("helvetica", "bold"); doc.setFontSize(11.5); doc.setTextColor(...choco);
+      doc.text(title, 14, y);
+      doc.autoTable({ ...base, startY: y + 3, ...opts });
+      y = doc.lastAutoTable.finalY + 10;
+    };
+    const summaryBody = rows(r.summary.slice(1)).map((row) => (row[1] === "" ? [{ content: row[0], colSpan: 2, styles: { fillColor: [243, 227, 207], fontStyle: "bold" } }] : row));
+    section("Ringkasan", { head: [["Perkara", "Nilai"]], body: summaryBody, columnStyles: { 1: { halign: "right" } }, tableWidth: 120 });
+    section("Jualan ikut kawasan", { head: [H.areas], body: rows(r.areas), columnStyles: { 1: { halign: "right" }, 2: { halign: "right" }, 3: { halign: "right" } }, tableWidth: 120 });
+    if (r.weekly.length) section("Prestasi mingguan", { head: [H.weekly], body: rows(r.weekly), columnStyles: Object.fromEntries([1, 2, 3, 4, 5, 6].map((i) => [i, { halign: "right" }])) });
+    section(`Senarai order (${r.orders.length})`, {
+      head: [["Kod", "Tarikh", "Nama", "Kotak", "RM", "Kawasan", "Bayaran", "Status"]],
+      body: rows(r.orders.map((o) => [o[0], o[1], o[2], o[4], o[5], o[6], o[8], o[9]])),
+      columnStyles: { 3: { halign: "right" }, 4: { halign: "right" } },
+    });
+    section(`Transaksi kewangan (${r.finance.length})`, { head: [H.finance.slice(0, 5)], body: rows(r.finance.map((f) => f.slice(0, 5))), columnStyles: { 2: { halign: "right" }, 3: { halign: "right" } } });
+    section(`Pergerakan stok kek (${r.stock.length})`, { head: [H.stock.slice(0, 5)], body: rows(r.stock.map((m) => m.slice(0, 5))), columnStyles: { 2: { halign: "right" } } });
+
+    const pages = doc.getNumberOfPages();
+    for (let i = 1; i <= pages; i++) {
+      doc.setPage(i); doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.setTextColor(150);
+      doc.text(`Munchies - UiTM Segamat`, 14, 290);
+      doc.text(`Muka ${i} / ${pages}`, 196, 290, { align: "right" });
+    }
+    doc.save(fileName(r, "pdf"));
+  });
 
   // Tetapan
   $("setOpen").onchange = async () => {
@@ -724,6 +881,7 @@
     $("whoEmail").textContent = session.user.email;
     $("loginView").hidden = true; $("appView").hidden = false;
     $("txDate").value = todayStr();
+    setRange("month");
     setStKind("masuk");
     let tab = "home"; try { tab = sessionStorage.getItem("munchiesTab") || "home"; } catch {}
     switchTab(tab);
